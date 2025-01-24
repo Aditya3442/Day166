@@ -1,0 +1,33 @@
+class Solution {
+    public boolean isCheck(int x , int[][] graph , int[] visited , int[] pathVisited){
+        visited[x] = 1;
+        pathVisited[x] = 1;
+        for(int i : graph[x]){
+            if(visited[i] == 0){
+               if(isCheck(i , graph , visited , pathVisited) == true)
+                   return true;
+            }
+            else if(pathVisited[i] == 1)
+               return true;
+        }
+        pathVisited[x] = 0;
+        return false;
+    }
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        int visited[] = new int[n];
+        int pathVisited[] = new int[n];
+        for(int i = 0 ; i < n ; i++){
+            if(visited[i] == 0){
+               isCheck(i , graph , visited , pathVisited);
+            }
+        }
+        List<Integer> list = new ArrayList<Integer>();
+        for (int i = 0; i < n; i++) {
+            if (pathVisited[i] == 0) {
+                list.add(i);
+            }
+        }
+        return list;
+    }
+}
